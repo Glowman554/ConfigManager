@@ -5,7 +5,10 @@ import de.glowman554.config.auto.processors.*;
 import net.shadew.json.JsonNode;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class AutoSavable implements Savable {
     private static final HashMap<Class<?>, JsonProcessor> processors = new HashMap<>();
@@ -26,6 +29,17 @@ public class AutoSavable implements Savable {
         processors.put(Savable.class, new SavableProcessor());
     }
 
+    public static List<Field> getAllFields(Class<?> clazz) {
+        List<Field> allFields = new ArrayList<>();
+
+        while (clazz != null) {
+            Field[] fields = clazz.getDeclaredFields();
+            Collections.addAll(allFields, fields);
+            clazz = clazz.getSuperclass();
+        }
+
+        return allFields;
+    }
 
     @Override
     public void fromJSON(JsonNode node) {
@@ -89,19 +103,6 @@ public class AutoSavable implements Savable {
         }
 
         return localProcessors;
-    }
-
-
-    public static List<Field> getAllFields(Class<?> clazz) {
-        List<Field> allFields = new ArrayList<>();
-
-        while (clazz != null) {
-            Field[] fields = clazz.getDeclaredFields();
-            Collections.addAll(allFields, fields);
-            clazz = clazz.getSuperclass();
-        }
-
-        return allFields;
     }
 
     private JsonProcessor getProcessor(HashMap<Class<?>, JsonProcessor> localProcessors, Field field, Saved annotation) {

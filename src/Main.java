@@ -1,11 +1,15 @@
 import de.glowman554.config.ConfigManager;
 import de.glowman554.config.Savable;
 import de.glowman554.config.auto.AutoSavable;
+import de.glowman554.config.auto.JsonProcessor;
+import de.glowman554.config.auto.Processor;
 import de.glowman554.config.auto.Saved;
+import de.glowman554.config.auto.processors.SavableArrayProcessor;
 import de.glowman554.config.premade.IntegerSavable;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,6 +25,16 @@ public class Main {
         manager.setValue("test", s1);
 
         System.out.println(manager.loadValue("test", new TestData()));
+
+
+
+        ConfigManager manager2 = new ConfigManager("default2", false);
+        manager2.setValue("test", new Test1());
+
+        Test2 result = (Test2) manager2.loadValue("test", new Test2());
+
+        System.out.println(result.data.length);
+        System.out.println(result.data[0].test_string);
     }
 
     public static class TestData extends AutoSavable {
@@ -75,5 +89,28 @@ public class Main {
         public String toString() {
             return "RootSection{" + "test_string='" + test_string + '\'' + ", test_string_array=" + Arrays.toString(test_string_array) + ", test_int=" + test_int + ", test_int_array=" + Arrays.toString(test_int_array) + ", test_long=" + test_long + ", test_long_array=" + Arrays.toString(test_long_array) + ", test_double=" + test_double + ", test_double_array=" + Arrays.toString(test_double_array) + ", test_boolean=" + test_boolean + ", test_boolean_array=" + Arrays.toString(test_boolean_array) + ", other_savable=" + other_savable + '}';
         }
+    }
+
+    public static class Test1 extends AutoSavable {
+        @Saved
+        private TestData[] data = new TestData[]{new TestData(),new TestData(),new TestData()};
+
+        @Processor(target = TestData[].class)
+        private JsonProcessor dataProcessor = new SavableArrayProcessor(TestData::new, TestData[]::new);
+
+        public Test1() {
+            data[0].loadDefaults();
+            data[1].loadDefaults();
+            data[2].loadDefaults();
+        }
+    }
+
+    public static class Test2 extends AutoSavable {
+        @Saved
+        private TestData[] data = new TestData[]{};
+
+        @Processor(target = TestData[].class)
+        private JsonProcessor dataProcessor = new SavableArrayProcessor(TestData::new, TestData[]::new);
+
     }
 }

@@ -41,6 +41,11 @@ public class AutoSavable implements Savable {
         return allFields;
     }
 
+    public static void register(Class<?> target, JsonProcessor processor) {
+        debug.debug("Registering new processor for " + target.getName());
+        processors.put(target, processor);
+    }
+
     @Override
     public void fromJSON(JsonNode node) {
         HashMap<Class<?>, JsonProcessor> localProcessors = loadLocalProcessors();

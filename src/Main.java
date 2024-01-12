@@ -1,15 +1,12 @@
 import de.glowman554.config.ConfigManager;
 import de.glowman554.config.Savable;
 import de.glowman554.config.auto.AutoSavable;
-import de.glowman554.config.auto.JsonProcessor;
-import de.glowman554.config.auto.Processor;
 import de.glowman554.config.auto.Saved;
 import de.glowman554.config.auto.processors.SavableArrayProcessor;
 import de.glowman554.config.premade.IntegerSavable;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,13 +16,13 @@ public class Main {
         ConfigManager manager = new ConfigManager("default", false);
 
         AutoSavable.debug = System.out::println;
+        AutoSavable.register(TestData[].class, new SavableArrayProcessor(TestData::new, TestData[]::new));
 
         TestData s1 = new TestData();
         s1.loadDefaults();
         manager.setValue("test", s1);
 
         System.out.println(manager.loadValue("test", new TestData()));
-
 
 
         ConfigManager manager2 = new ConfigManager("default2", false);
@@ -93,10 +90,7 @@ public class Main {
 
     public static class Test1 extends AutoSavable {
         @Saved
-        private TestData[] data = new TestData[]{new TestData(),new TestData(),new TestData()};
-
-        @Processor(target = TestData[].class)
-        private JsonProcessor dataProcessor = new SavableArrayProcessor(TestData::new, TestData[]::new);
+        private TestData[] data = new TestData[]{new TestData(), new TestData(), new TestData()};
 
         public Test1() {
             data[0].loadDefaults();
@@ -108,9 +102,6 @@ public class Main {
     public static class Test2 extends AutoSavable {
         @Saved
         private TestData[] data = new TestData[]{};
-
-        @Processor(target = TestData[].class)
-        private JsonProcessor dataProcessor = new SavableArrayProcessor(TestData::new, TestData[]::new);
 
     }
 }

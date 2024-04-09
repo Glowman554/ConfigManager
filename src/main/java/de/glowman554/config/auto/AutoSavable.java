@@ -2,6 +2,7 @@ package de.glowman554.config.auto;
 
 import de.glowman554.config.Savable;
 import de.glowman554.config.auto.processors.*;
+import de.glowman554.config.premade.ArrayListSavable;
 import net.shadew.json.JsonNode;
 
 import java.lang.reflect.Field;
@@ -27,6 +28,7 @@ public class AutoSavable implements Savable {
         processors.put(String.class, new StringProcessor());
         processors.put(String[].class, new StringArrayProcessor());
         processors.put(Savable.class, new SavableProcessor());
+        processors.put(ArrayListSavable.class, new SavableProcessor());
     }
 
     public static List<Field> getAllFields(Class<?> clazz) {
@@ -121,6 +123,10 @@ public class AutoSavable implements Savable {
             throw new RuntimeException("Could not find JsonProcessor for field " + field.getName() + " with type " + clazz.getName());
         }
         return processor;
+    }
+
+    public static HashMap<Class<?>, JsonProcessor> getProcessors() {
+        return processors;
     }
 
     public interface Logger {

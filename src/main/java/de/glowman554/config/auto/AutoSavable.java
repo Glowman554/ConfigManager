@@ -3,6 +3,7 @@ package de.glowman554.config.auto;
 import de.glowman554.config.Savable;
 import de.glowman554.config.auto.processors.*;
 import de.glowman554.config.premade.ArrayListSavable;
+import de.glowman554.config.premade.ArrayListSavableOOP;
 import net.shadew.json.JsonNode;
 
 import java.lang.reflect.Field;
@@ -29,6 +30,7 @@ public class AutoSavable implements Savable {
         processors.put(String[].class, new StringArrayProcessor());
         processors.put(Savable.class, new SavableProcessor());
         processors.put(ArrayListSavable.class, new SavableProcessor());
+        processors.put(ArrayListSavableOOP.class, new SavableProcessor());
     }
 
     public static List<Field> getAllFields(Class<?> clazz) {
@@ -102,7 +104,8 @@ public class AutoSavable implements Savable {
                     field.setAccessible(true);
                     JsonProcessor processor = (JsonProcessor) field.get(this);
                     localProcessors.put(custom.target(), processor);
-                    debug.debug("Found processor " + processor.getClass().getName() + " for " + custom.target().getName() + " in " + field.getName());
+                    debug.debug("Found processor " + processor.getClass().getName() + " for "
+                            + custom.target().getName() + " in " + field.getName());
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
@@ -112,15 +115,18 @@ public class AutoSavable implements Savable {
         return localProcessors;
     }
 
-    private JsonProcessor getProcessor(HashMap<Class<?>, JsonProcessor> localProcessors, Field field, Saved annotation) {
+    private JsonProcessor getProcessor(HashMap<Class<?>, JsonProcessor> localProcessors, Field field,
+            Saved annotation) {
         Class<?> clazz = field.getType();
         if (annotation.remap() != Object.class) {
-            debug.debug("Remapping " + clazz.getName() + " to " + annotation.remap().getName() + " for field " + field.getName());
+            debug.debug("Remapping " + clazz.getName() + " to " + annotation.remap().getName() + " for field "
+                    + field.getName());
             clazz = annotation.remap();
         }
         JsonProcessor processor = localProcessors.get(clazz);
         if (processor == null) {
-            throw new RuntimeException("Could not find JsonProcessor for field " + field.getName() + " with type " + clazz.getName());
+            throw new RuntimeException(
+                    "Could not find JsonProcessor for field " + field.getName() + " with type " + clazz.getName());
         }
         return processor;
     }

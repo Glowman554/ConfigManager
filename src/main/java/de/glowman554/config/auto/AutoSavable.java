@@ -4,6 +4,7 @@ import de.glowman554.config.Savable;
 import de.glowman554.config.auto.processors.*;
 import de.glowman554.config.premade.ArrayListSavable;
 import de.glowman554.config.premade.ArrayListSavableOOP;
+import de.glowman554.config.premade.HashMapSavable;
 import net.shadew.json.JsonNode;
 
 import java.lang.reflect.Field;
@@ -31,6 +32,7 @@ public class AutoSavable implements Savable {
         processors.put(Savable.class, new SavableProcessor());
         processors.put(ArrayListSavable.class, new SavableProcessor());
         processors.put(ArrayListSavableOOP.class, new SavableProcessor());
+        processors.put(HashMapSavable.class, new SavableProcessor());
     }
 
     public static List<Field> getAllFields(Class<?> clazz) {

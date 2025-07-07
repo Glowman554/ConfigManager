@@ -5,13 +5,13 @@ import de.glowman554.config.auto.AutoSavable;
 import de.glowman554.config.auto.JsonProcessor;
 import net.shadew.json.JsonNode;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
-public class HashMapSavable<T> extends HashMap<String, T> implements Savable {
+public class HashSetSavable<T> extends HashSet<T> implements Savable {
     private final JsonProcessor processor;
     private final ConstructorReference<T> constructorReference;
 
-    public HashMapSavable(JsonProcessor processor, ConstructorReference<T> constructorReference) {
+    public HashSetSavable(JsonProcessor processor, ConstructorReference<T> constructorReference) {
         this.constructorReference = constructorReference;
         if (processor == null) {
             throw new IllegalArgumentException("No valid JsonProcessor!");
@@ -19,7 +19,7 @@ public class HashMapSavable<T> extends HashMap<String, T> implements Savable {
         this.processor = processor;
     }
 
-    public HashMapSavable(Class<T> clazz, ConstructorReference<T> constructorReference) {
+    public HashSetSavable(Class<T> clazz, ConstructorReference<T> constructorReference) {
         this(AutoSavable.getProcessors().get(clazz), constructorReference);
     }
 
@@ -28,16 +28,16 @@ public class HashMapSavable<T> extends HashMap<String, T> implements Savable {
     public void fromJSON(JsonNode node) {
         clear();
 
-        for (String key : node.keySet()) {
-            put(key, (T) processor.fromJson(node.get(key), constructorReference.create()));
+        for (JsonNode object : node) {
+            add((T) processor.fromJson(object, constructorReference.create()));
         }
     }
 
     @Override
     public JsonNode toJSON() {
-        JsonNode root = JsonNode.object();
-        for (String key : keySet()) {
-            root.set(key, processor.toJson(get(key)));
+        JsonNode root = JsonNode.array();
+        for (T object : this) {
+            root.add(processor.toJson(object));
         }
         return root;
     }

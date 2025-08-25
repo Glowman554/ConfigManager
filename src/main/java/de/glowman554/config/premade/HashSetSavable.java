@@ -29,7 +29,7 @@ public class HashSetSavable<T> extends HashSet<T> implements Savable {
         clear();
 
         for (JsonNode object : node) {
-            add((T) processor.fromJson(object, constructorReference.create()));
+            add((T) processor.fromJson(object, constructorReference.create(), false));
         }
     }
 

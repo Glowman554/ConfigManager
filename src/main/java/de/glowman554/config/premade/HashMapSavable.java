@@ -29,7 +29,7 @@ public class HashMapSavable<T> extends HashMap<String, T> implements Savable {
         clear();
 
         for (String key : node.keySet()) {
-            put(key, (T) processor.fromJson(node.get(key), constructorReference.create()));
+            put(key, (T) processor.fromJson(node.get(key), constructorReference.create(), false));
         }
     }
 

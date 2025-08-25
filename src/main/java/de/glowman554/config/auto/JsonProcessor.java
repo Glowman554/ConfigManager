@@ -5,5 +5,5 @@ import net.shadew.json.JsonNode;
 public interface JsonProcessor {
     JsonNode toJson(Object obj);
 
-    Object fromJson(JsonNode node, Object obj);
+    Object fromJson(JsonNode node, Object obj, boolean optional);
 }

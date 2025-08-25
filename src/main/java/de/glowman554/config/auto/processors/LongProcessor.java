@@ -10,11 +10,14 @@ public class LongProcessor implements JsonProcessor {
     }
 
     @Override
-    public Object fromJson(JsonNode node, Object obj) {
-        if (node != null) {
-            return node.asLong();
-        } else {
-            return obj;
+    public Object fromJson(JsonNode node, Object obj, boolean optional) {
+        if (node == null) {
+            if (optional) {
+                return obj;
+            }
+            throw new RuntimeException("Missing field");
         }
+
+        return node.asLong();
     }
 }

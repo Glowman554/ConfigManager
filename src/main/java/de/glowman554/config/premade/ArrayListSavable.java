@@ -28,7 +28,7 @@ public class ArrayListSavable<T> extends ArrayList<T> implements Savable {
     public void fromJSON(JsonNode node) {
         clear();
         for (JsonNode t : node) {
-            add((T) processor.fromJson(t, constructorReference.create()));
+            add((T) processor.fromJson(t, constructorReference.create(), false));
         }
     }
 

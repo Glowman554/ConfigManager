@@ -10,11 +10,14 @@ public class StringProcessor implements JsonProcessor {
     }
 
     @Override
-    public Object fromJson(JsonNode node, Object obj) {
-        if (node != null) {
-            return node.asString();
-        } else {
-            return obj;
+    public Object fromJson(JsonNode node, Object obj, boolean optional) {
+        if (node == null) {
+            if (optional) {
+                return obj;
+            }
+            throw new RuntimeException("Missing field");
         }
+
+        return node.asString();
     }
 }

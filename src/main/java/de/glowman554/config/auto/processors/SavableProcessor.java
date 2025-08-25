@@ -11,10 +11,16 @@ public class SavableProcessor implements JsonProcessor {
     }
 
     @Override
-    public Object fromJson(JsonNode node, Object obj) {
-        if (node != null) {
-            ((Savable) obj).fromJSON(node);
+    public Object fromJson(JsonNode node, Object obj, boolean optional) {
+        if (node == null) {
+            if (optional) {
+                return obj;
+            }
+            throw new RuntimeException("Missing field");
         }
+
+        ((Savable) obj).fromJSON(node);
+
         return obj;
     }
 }

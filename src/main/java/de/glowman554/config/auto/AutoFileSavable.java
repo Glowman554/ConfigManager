@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class AutoFileSavable extends AutoSavable {
+    private boolean saveAfterLoad = false;
+
     public void save(File file) {
         try {
             Json.json().serialize(toJSON(), file);
@@ -20,6 +22,13 @@ public class AutoFileSavable extends AutoSavable {
         } catch (IOException ignored) {
 
         }
-        save(file);
+
+        if (saveAfterLoad) {
+            save(file);
+        }
+    }
+
+    public void setSaveAfterLoad(boolean saveAfterLoad) {
+        this.saveAfterLoad = saveAfterLoad;
     }
 }

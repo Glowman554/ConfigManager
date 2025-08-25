@@ -58,10 +58,11 @@ public class AutoSavable implements Savable {
 
         for (Field field : getAllFields(this.getClass())) {
             if (field.isAnnotationPresent(Saved.class)) {
-                JsonProcessor processor = getProcessor(localProcessors, field, field.getAnnotation(Saved.class));
+                var anno = field.getAnnotation(Saved.class);
+                JsonProcessor processor = getProcessor(localProcessors, field, anno);
                 try {
                     field.setAccessible(true);
-                    field.set(this, processor.fromJson(node.get(field.getName()), field.get(this)));
+                    field.set(this, processor.fromJson(node.get(field.getName()), field.get(this), anno.optional()));
                     debug.debug("Loaded " + field.getName() + " using processor " + processor.getClass().getName());
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);

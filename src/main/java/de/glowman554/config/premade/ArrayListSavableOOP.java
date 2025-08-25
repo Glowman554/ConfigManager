@@ -31,7 +31,7 @@ public class ArrayListSavableOOP<T> extends ArrayList<T> implements Savable {
                 Class<? extends Savable> clazz = (Class<? extends Savable>) this.getClass().getClassLoader()
                         .loadClass(t.get("className").asString());
 
-                add((T) processor.fromJson(t.get("data"), clazz.getDeclaredConstructor().newInstance()));
+                add((T) processor.fromJson(t.get("data"), clazz.getDeclaredConstructor().newInstance(), false));
             } catch (Exception e) {
                 e.printStackTrace();
             }

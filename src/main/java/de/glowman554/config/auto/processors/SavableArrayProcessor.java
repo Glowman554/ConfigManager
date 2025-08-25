@@ -25,19 +25,22 @@ public class SavableArrayProcessor implements JsonProcessor {
     }
 
     @Override
-    public Object fromJson(JsonNode node, Object obj) {
-        if (node != null) {
-            Savable[] result = array.create(node.size());
-
-            for (int i = 0; i < result.length; i++) {
-                result[i] = base.create();
-                result[i].fromJSON(node.get(i));
+    public Object fromJson(JsonNode node, Object obj, boolean optional) {
+        if (node == null) {
+            if (optional) {
+                return obj;
             }
-
-            return result;
-        } else {
-            return obj;
+            throw new RuntimeException("Missing field");
         }
+
+        Savable[] result = array.create(node.size());
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = base.create();
+            result[i].fromJSON(node.get(i));
+        }
+
+        return result;
     }
 
     public interface SavableConstructorReference {

@@ -17,6 +17,7 @@ public class AutoSavable implements Savable {
     private static final HashMap<Class<?>, JsonProcessor> processors = new HashMap<>();
     public static Logger debug = msg -> {
     };
+    public static boolean strict = true;
 
     static {
         processors.put(int.class, new IntegerProcessor());
@@ -62,8 +63,8 @@ public class AutoSavable implements Savable {
                 JsonProcessor processor = getProcessor(localProcessors, field, anno);
                 try {
                     field.setAccessible(true);
-                    field.set(this, processor.fromJson(node.get(field.getName()), field.get(this), anno.optional()));
                     debug.debug("Loaded " + field.getName() + " using processor " + processor.getClass().getName());
+                    field.set(this, processor.fromJson(node.get(field.getName()), field.get(this), anno.optional() || !strict));
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }

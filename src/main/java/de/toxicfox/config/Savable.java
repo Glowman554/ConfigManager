@@ -1,4 +1,4 @@
-package de.glowman554.config;
+package de.toxicfox.config;
 
 
 import net.shadew.json.JsonNode;

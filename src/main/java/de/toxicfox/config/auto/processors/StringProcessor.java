@@ -1,13 +1,12 @@
-package de.glowman554.config.auto.processors;
+package de.toxicfox.config.auto.processors;
 
-import de.glowman554.config.Savable;
-import de.glowman554.config.auto.JsonProcessor;
+import de.toxicfox.config.auto.JsonProcessor;
 import net.shadew.json.JsonNode;
 
-public class SavableProcessor implements JsonProcessor {
+public class StringProcessor implements JsonProcessor {
     @Override
     public JsonNode toJson(Object obj) {
-        return ((Savable) obj).toJSON();
+        return JsonNode.string((String) obj);
     }
 
     @Override
@@ -19,8 +18,6 @@ public class SavableProcessor implements JsonProcessor {
             throw new RuntimeException("Missing field");
         }
 
-        ((Savable) obj).fromJSON(node);
-
-        return obj;
+        return node.asString();
     }
 }

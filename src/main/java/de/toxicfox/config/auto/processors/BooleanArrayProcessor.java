@@ -1,6 +1,6 @@
-package de.glowman554.config.auto.processors;
+package de.toxicfox.config.auto.processors;
 
-import de.glowman554.config.auto.JsonProcessor;
+import de.toxicfox.config.auto.JsonProcessor;
 import net.shadew.json.JsonNode;
 
 public class BooleanArrayProcessor implements JsonProcessor {

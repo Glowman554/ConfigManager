@@ -1,8 +1,8 @@
-package de.glowman554.config.premade;
+package de.toxicfox.config.premade;
 
-import de.glowman554.config.Savable;
-import de.glowman554.config.auto.AutoSavable;
-import de.glowman554.config.auto.JsonProcessor;
+import de.toxicfox.config.Savable;
+import de.toxicfox.config.auto.AutoSavable;
+import de.toxicfox.config.auto.JsonProcessor;
 import net.shadew.json.JsonNode;
 
 import java.util.HashMap;

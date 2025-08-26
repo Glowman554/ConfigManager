@@ -1,7 +1,6 @@
-package de.glowman554.config;
+package de.toxicfox.config;
 
-import de.glowman554.config.auto.AutoFileSavable;
-import de.glowman554.config.auto.AutoSavable;
+import de.toxicfox.config.auto.AutoFileSavable;
 
 import java.io.File;
 

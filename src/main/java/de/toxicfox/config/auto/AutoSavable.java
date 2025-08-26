@@ -1,10 +1,10 @@
-package de.glowman554.config.auto;
+package de.toxicfox.config.auto;
 
-import de.glowman554.config.Savable;
-import de.glowman554.config.auto.processors.*;
-import de.glowman554.config.premade.ArrayListSavable;
-import de.glowman554.config.premade.ArrayListSavableOOP;
-import de.glowman554.config.premade.HashMapSavable;
+import de.toxicfox.config.Savable;
+import de.toxicfox.config.auto.processors.*;
+import de.toxicfox.config.premade.ArrayListSavable;
+import de.toxicfox.config.premade.ArrayListSavableOOP;
+import de.toxicfox.config.premade.HashMapSavable;
 import net.shadew.json.JsonNode;
 
 import java.lang.reflect.Field;

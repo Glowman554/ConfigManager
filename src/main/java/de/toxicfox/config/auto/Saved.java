@@ -1,4 +1,4 @@
-package de.glowman554.config.auto;
+package de.toxicfox.config.auto;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

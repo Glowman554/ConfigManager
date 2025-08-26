@@ -1,12 +1,12 @@
-package de.glowman554.config.auto.processors;
+package de.toxicfox.config.auto.processors;
 
-import de.glowman554.config.auto.JsonProcessor;
+import de.toxicfox.config.auto.JsonProcessor;
 import net.shadew.json.JsonNode;
 
-public class LongProcessor implements JsonProcessor {
+public class DoubleArrayProcessor implements JsonProcessor {
     @Override
     public JsonNode toJson(Object obj) {
-        return JsonNode.number((long) obj);
+        return JsonNode.numberArray((double[]) obj);
     }
 
     @Override
@@ -18,6 +18,6 @@ public class LongProcessor implements JsonProcessor {
             throw new RuntimeException("Missing field");
         }
 
-        return node.asLong();
+        return node.asDoubleArray();
     }
 }
